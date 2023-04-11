@@ -1,4 +1,5 @@
 {
+  "info": "Команда 'ls' отображает содержимое папки в виде списка. Мануал: https://man7.org/linux/man-pages/man1/ls.1.html",
   "questions": [
     {
       "question": "Что означает опция -a в команде ls?",
