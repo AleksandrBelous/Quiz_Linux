@@ -1,4 +1,3 @@
-bash_menu_state = 0
 sys_files_menu_state = 0
 utilities_menu_state = 0
 new_game_menu_state = 0
@@ -36,149 +35,61 @@ def find_info(command):
     info(task_path)
 
 
-def bash_commands():
-    global bash_menu_state, info_state
-    st = bash_menu_state
-    import os
-    os.system('cls')
-    commands = sorted(['gzip', 'tar',
-                       'df', 'du', 'fdisk', 'findmnt',
-                       'cat', 'cp', 'head', 'ln', 'ls', 'mkdir', 'more', 'mv', 'pwd', 'rm', 'tail', 'touch', 'wc',
-                       'xargs',
-                       'awk', 'grep', 'sed'])
-    n = len(commands)
-    print('\n')
-    for i in range(n):
-        if i == st:
-            print(f'\t< {commands[i]} >')
-        else:
-            print(f'\t{commands[i]}')
-    ###################################
-    from menu_move import analyse
-    choice = analyse()
-    if choice == 'U':
-        bash_menu_state = (st - 1) % n
-        bash_commands()
-    elif choice == 'D':
-        bash_menu_state = (st + 1) % n
-        bash_commands()
-    elif choice == 'E':
-        info_state = 0
-        find_info(commands[st])
-    elif choice == 'B':
-        new_game()
-    else:
-        bash_commands()
-
-
-def sys_files():
-    global sys_files_menu_state, info_state
-    st = sys_files_menu_state
-    import os
-    os.system('cls')
-    commands = sorted(['cpuinfo', 'meminfo'])
-    n = len(commands)
-    print('\n')
-    for i in range(n):
-        if i == st:
-            print(f'\t< {commands[i]} >')
-        else:
-            print(f'\t{commands[i]}')
-    ###################################
-    from menu_move import analyse
-    choice = analyse()
-    if choice == 'U':
-        sys_files_menu_state = (st - 1) % n
-        sys_files()
-    elif choice == 'D':
-        sys_files_menu_state = (st + 1) % n
-        sys_files()
-    elif choice == 'E':
-        info_state = 1
-        find_info(commands[st])
-    elif choice == 'B':
-        new_game()
-    else:
-        sys_files()
-
-
-def utilities():
-    global utilities_menu_state, info_state
-    st = utilities_menu_state
-    import os
-    os.system('cls')
-    commands = sorted(['gpg', 'nmap'])
-    n = len(commands)
-    print('\n')
-    for i in range(n):
-        if i == st:
-            print(f'\t< {commands[i]} >')
-        else:
-            print(f'\t{commands[i]}')
-    ###################################
-    from menu_move import analyse
-    choice = analyse()
-    if choice == 'U':
-        utilities_menu_state = (st - 1) % n
-        utilities()
-    elif choice == 'D':
-        utilities_menu_state = (st + 1) % n
-        utilities()
-    elif choice == 'E':
-        info_state = 2
-        find_info(commands[st])
-    elif choice == 'B':
-        new_game()
-    else:
-        utilities()
-
-
-def new_game():
+def new_game_draw(scr):
     global new_game_menu_state
-    st = new_game_menu_state
-    from os import system
-    system('cls')
-    if st == 0:
-        print('\n'
-              '\t === Тема викторины ===\n'
-              '\t  <<< Команды bash >>> \n'
-              '\t    Системные файлы    \n'
-              '\t    Спец. программы    \n')
-    elif st == 1:
-        print('\n'
-              '\t === Тема викторины ===\n'
-              '\t      Команды bash     \n'
-              '\t<<< Системные файлы >>>\n'
-              '\t    Спец. программы    \n')
-    elif st == 2:
-        print('\n'
-              '\t === Тема викторины ===\n'
-              '\t      Команды bash     \n'
-              '\t    Системные файлы    \n'
-              '\t<<< Спец. программы >>>\n')
-    ###################################
-    from menu_move import analyse
-    choice = analyse()
-    if choice == 'U':
-        new_game_menu_state = (st - 1) % 3
-        new_game()
-    elif choice == 'D':
-        new_game_menu_state = (st + 1) % 3
-        new_game()
-    elif choice == 'E':
-        if st == 0:
-            bash_commands()
-        elif st == 1:
-            sys_files()
-        elif st == 2:
-            utilities()
-    elif choice == 'B':
-        from menu_main import menu_draw
-        menu_draw()
-    else:
-        new_game()
-    #############################################
-    new = {'theme': input(''), 'hard': input('')}
-    from json import dump
-    with open('game_conf.json', 'w', encoding='utf-8') as f:
-        dump(new, f, ensure_ascii=False, indent=2)
+    
+    from colores import colors
+    import curses
+    # scr = curses.initscr()
+    head = 'Тема викторины'
+    menu = ['Команды bash',
+            'Системные файлы',
+            'Спец. программы']
+    
+    n, max_ = len(menu), len(max(menu, key=lambda s: len(s)))
+    l, r = ' |   ', '   | '
+    l_cl, r_cl = '(|)> ', ' <(|)'
+    
+    while True:
+        scr.clear()
+        scr.border()
+        col = colors.white_on_black
+        scr.addstr(2, 2, f'{head:^{len(l_cl) + max_ + len(r_cl)}}', col)
+        scr.addstr(3, 2, '\n')
+        st = new_game_menu_state
+        for i in range(n):
+            if i == st:
+                scr.addstr(i + 3 + 1, 2, f'{l_cl}{menu[i]:^{max_}}{r_cl}', col | curses.A_BOLD)
+            else:
+                scr.addstr(i + 3 + 1, 2, f'{l}{menu[i]:^{max_}}{r}', col)
+        ###################################
+        from menu_move import analyse
+        choice = analyse()
+        if choice == 'U':
+            new_game_menu_state = (st - 1) % n
+        elif choice == 'D':
+            new_game_menu_state = (st + 1) % n
+        elif choice == 'E':
+            if st == 0:
+                from menu_bash_commands import bash_commands_start
+                bash_commands_start()
+            elif st == 1:
+                from menu_sys_files import sys_files_start
+                sys_files_start()
+            elif st == 2:
+                from menu_utilities import utilities_start
+                utilities_start()
+        elif choice == 'B':
+            from menu_main import main_menu_start
+            main_menu_start()
+        scr.refresh()
+        #############################################
+        # new = {'theme': input(''), 'hard': input('')}
+        # from json import dump
+        # with open('game_conf.json', 'w', encoding='utf-8') as f:
+        #     dump(new, f, ensure_ascii=False, indent=2)
+
+
+def new_game_start():
+    from curses import wrapper
+    wrapper(new_game_draw)
