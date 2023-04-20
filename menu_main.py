@@ -34,7 +34,7 @@ def menu_draw(scr):
                 scr.addstr(i + 2, 2, f'{l}{menu[i]:^{max_}}{r}', colors.white_on_black)
         ###################################
         from menu_move import analyse
-        choice = analyse()
+        choice = analyse(scr)
         if choice == 'U':
             main_menu_state = (st - 1) % n
         elif choice == 'D':
@@ -47,8 +47,8 @@ def menu_draw(scr):
             elif st == 2:
                 ...
             elif st == 3:
-                from menu_new_game import new_game_start
-                new_game_start()
+                from menu_new_game import new_game_draw
+                new_game_draw(scr)
             elif st == n - 1:
                 scr.clear()
                 exit(0)

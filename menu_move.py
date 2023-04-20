@@ -1,8 +1,4 @@
-import curses
-
-
-def analyse():
-    scr = curses.initscr()
+def analyse(scr):
     try:
         choice = scr.getkey()
     except:
