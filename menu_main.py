@@ -21,13 +21,17 @@ def menu_draw(scr):
     l, r = ' |   ', '   | '
     l_cl, r_cl = '(|)> ', ' <(|)'
     
+    # hight, width = len(menu), len(l_cl) + max_ + len(r_cl)
     h, w = scr.getmaxyx()
-    y, x = (h - n) // 2, w // 2 - (max_ + len(l_cl) + len(r_cl)) // 2
     
     while True:
+        y, x = (h - n) // 2, w // 2 - (max_ + len(l_cl) + len(r_cl)) // 2
+        
         scr.clear()
         scr.border()
+        
         st = main_menu_state
+        
         for i in range(n):
             if i == st != n - 1:
                 scr.addstr(y + i, x, f'{l_cl}{menu[i]:^{max_}}{r_cl}', colors.green_on_black | curses.A_BOLD)
@@ -55,6 +59,10 @@ def menu_draw(scr):
             elif st == n - 1:
                 scr.clear()
                 exit(0)
+        elif choice == 'S':
+            h, w = scr.getmaxyx()
+            scr.clear()
+            curses.resize_term(h, w)
         scr.refresh()
 
 

@@ -14,6 +14,11 @@ if __name__ == '__main__':
     # scr = curses.initscr()
     #
     # while True:
+    #     scr.clear()
+    #     y, x = curses.LINES, curses.COLS
+    #     scr.addstr(y, x, f'y = {y}, x = {x}')
+    #     scr.refresh()
+    # while True:
     #     try:
     #         k = scr.getkey()
     #     except:

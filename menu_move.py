@@ -11,6 +11,8 @@ def analyse(scr):
         return 'R'
     elif choice in ['KEY_LEFT', 'A', 'a', 'Ф', 'ф', 97, 65, 75, 228]:  # <=> left
         return 'L'
+    elif choice in ['KEY_RESIZE']:
+        return 'S'
     elif ord(choice) in [10, 32] or choice in ['KEY_ENTER', '\n', 'E', 'e', 13, 227]:  # <=> Enter
         return 'E'
     elif ord(choice) in [27] or choice in ['^[', 'Q', 'q', 27]:  # <=> Esc <=> Back

@@ -52,11 +52,11 @@ def new_game_draw(scr):
     l_cl, r_cl = '(|)> ', ' <(|)'
     
     h, w = scr.getmaxyx()
-    y, x = (h - (n + 2)) // 2, w // 2 - (max_ + len(l_cl) + len(r_cl)) // 2
     
     while True:
         scr.clear()
         scr.border()
+        y, x = (h - (n + 2)) // 2, w // 2 - (max_ + len(l_cl) + len(r_cl)) // 2
         scr.addstr(y, x, f'{head:^{len(l_cl) + max_ + len(r_cl)}}', colors.blue_on_black | curses.A_BOLD)
         scr.addstr(y + 1, x, '\n')
         st = new_game_menu_state
@@ -85,6 +85,10 @@ def new_game_draw(scr):
         elif choice == 'B':
             from menu_main import menu_draw
             menu_draw(scr)
+        elif choice == 'S':
+            h, w = scr.getmaxyx()
+            scr.clear()
+            curses.resize_term(h, w)
         scr.refresh()
         #############################################
         # new = {'theme': input(''), 'hard': input('')}
