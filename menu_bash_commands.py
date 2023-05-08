@@ -8,7 +8,7 @@ def bash_commands_draw(scr):
     
     import os
     import curses
-    scr = curses.initscr()
+    # scr = curses.initscr()
     from colores import colors
     
     from files import get_menu_list
@@ -19,6 +19,7 @@ def bash_commands_draw(scr):
     l_cl, r_cl = '', ''
     
     scr_h, scr_w = scr.getmaxyx()
+    m = 0
     
     while True:
         scr.clear()
@@ -26,7 +27,7 @@ def bash_commands_draw(scr):
         st = bash_menu_state
         with open(files_lst[st], 'r', encoding='utf-8') as st_f:
             records = load(st_f)
-        y, x = (scr_h - 3) // 2, scr_w // 2 - (max_ + len(l_cl) + len(r_cl)) // 2
+        y, x = (scr_h - m) // 2, scr_w // 2 - (max_ + len(l_cl) + len(r_cl)) // 2
         scr.addstr(y - 3, x, f'{l}{menu[st - 3]:<{max_}}{r}', colors.white_on_black | curses.A_DIM)
         scr.addstr(y - 2, x, f'{l}{menu[st - 2]:<{max_}}{r}', colors.white_on_black | curses.A_DIM)
         scr.addstr(y - 1, x, f'{l}{menu[st - 1]:<{max_}}{r}', colors.white_on_black | curses.A_DIM)
@@ -42,7 +43,8 @@ def bash_commands_draw(scr):
         elif choice == 'D':
             bash_menu_state = (st + 1) % n
         elif choice == 'E':
-            ...
+            from menu_questions import questions_window
+            questions_window(files_lst[st], scr)
         elif choice == 'B':
             from menu_new_game import new_game_draw
             new_game_draw(scr)
