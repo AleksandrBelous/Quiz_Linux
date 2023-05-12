@@ -1,4 +1,3 @@
-#
 from random import shuffle
 from json import load
 
@@ -36,7 +35,6 @@ def questions_window(file: str, scr):
         scr.addstr(y + 2, x, f'{records["questions"][st]["question"]:^{max_}}', colors.white_on_black)
         answ_max_ = len(max(records["questions"][st]["options"], key=lambda a: len(a))) + 1
         luck = None
-        
         for i in range(4):
             if i == answer_state:
                 scr.addstr(y + 3 + i, x, f'{options[i]:<{answ_max_}}{r}', colors.white_on_black)

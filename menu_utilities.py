@@ -10,7 +10,8 @@ def utilities_draw(scr):
     from colores import colors
     
     from files import get_menu_list
-    menu = sorted(os.path.split(f)[-1].removesuffix(".json") for f in get_menu_list('Utilities'))
+    files_lst = sorted(get_menu_list('Utilities'), key=lambda f: os.path.split(f)[-1].removesuffix(".json"))
+    menu = [os.path.split(f)[-1].removesuffix(".json") for f in files_lst]
     n, max_ = len(menu), len(max(menu, key=lambda s: len(s)))
     l, r = '  ', '  '
     l_cl, r_cl = '< ', ' >'
@@ -35,7 +36,8 @@ def utilities_draw(scr):
         elif choice == 'D':
             util_menu_state = (st + 1) % n
         elif choice == 'E':
-            ...
+            from menu_questions import questions_window
+            questions_window(files_lst[st], scr)
         elif choice == 'B':
             from menu_new_game import new_game_draw
             new_game_draw(scr)

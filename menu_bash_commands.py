@@ -25,12 +25,12 @@ def bash_commands_draw(scr):
         scr.clear()
         scr.border()
         st = bash_menu_state
-        with open(files_lst[st], 'r', encoding='utf-8') as st_f:
-            records = load(st_f)
         y, x = (scr_h - m) // 2, scr_w // 2 - (max_ + len(l_cl) + len(r_cl)) // 2
         scr.addstr(y - 3, x, f'{l}{menu[st - 3]:<{max_}}{r}', colors.white_on_black | curses.A_DIM)
         scr.addstr(y - 2, x, f'{l}{menu[st - 2]:<{max_}}{r}', colors.white_on_black | curses.A_DIM)
         scr.addstr(y - 1, x, f'{l}{menu[st - 1]:<{max_}}{r}', colors.white_on_black | curses.A_DIM)
+        with open(files_lst[st], 'r', encoding='utf-8') as st_f:
+            records = load(st_f)
         scr.addstr(y, x, f'{l_cl}{menu[st]:<{max_}}{r_cl}{records["info"]}', colors.green_on_black | curses.A_BOLD)
         scr.addstr(y + 1, x, f'{l}{menu[(st + 1) % n]:<{max_}}{r}', colors.white_on_black | curses.A_DIM)
         scr.addstr(y + 2, x, f'{l}{menu[(st + 2) % n]:<{max_}}{r}', colors.white_on_black | curses.A_DIM)

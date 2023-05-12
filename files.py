@@ -15,7 +15,3 @@ def get_menu_list(to_find: str) -> list:
             # menu.append(os.path.join(os.path.split(root)[0], file))
             menu.append(os.path.join(root, file))
     return menu
-
-
-def get_json_file():
-    ...
