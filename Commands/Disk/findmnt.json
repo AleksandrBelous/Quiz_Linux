@@ -1,5 +1,5 @@
 {
-  "info": "Список смонтированных файловых систем",
+  "info": "список смонтированных файловых систем",
   "man": "Мануал: https://man7.org/linux/man-pages/man1/findmnt.1p.html",
   "questions": [
     {

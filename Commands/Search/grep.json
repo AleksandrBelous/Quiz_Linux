@@ -1,5 +1,5 @@
 {
-  "info": "Выполняет поиск по фразе в тексте",
+  "info": "выполняет поиск по фразе в тексте",
   "man": "Мануал: https://man7.org/linux/man-pages/man1/grep.1p.html",
   "questions": [
     {
