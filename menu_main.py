@@ -1,8 +1,7 @@
-main_menu_state = 0
-
-
 def menu_draw(scr):
-    global main_menu_state
+    from files import get_settings, save_settings
+    key = 'main_menu_state'
+    st = get_settings(key)
     
     import curses
     from colores import colors
@@ -12,6 +11,7 @@ def menu_draw(scr):
     menu = ['ПРОДОЛЖИТЬ',
             'ПРОГРЕСС',
             'БЛИЦ-РЕЖИМ',
+            'ВЫБОР ТЕМЫ',
             'НОВАЯ ИГРА',
             'НАСТРОЙКИ',
             'АВТОРЫ',
@@ -30,8 +30,6 @@ def menu_draw(scr):
         scr.clear()
         scr.border()
         
-        st = main_menu_state
-        
         for i in range(n):
             if i == st != n - 1:
                 scr.addstr(y + i, x, f'{l_cl}{menu[i]:^{max_}}{r_cl}', colors.green_on_black | curses.A_BOLD)
@@ -43,21 +41,24 @@ def menu_draw(scr):
         from menu_move import analyse
         choice = analyse(scr)
         if choice == 'U':
-            main_menu_state = (st - 1) % n
+            st = (st - 1) % n
         elif choice == 'D':
-            main_menu_state = (st + 1) % n
+            st = (st + 1) % n
         elif choice == 'E':
             if st == 0:
-                ...
+                from resume import resume
+                resume()
             elif st == 1:
                 ...
             elif st == 2:
                 ...
             elif st == 3:
-                from menu_new_game import new_game_draw
-                new_game_draw(scr)
+                save_settings(key, st)
+                from menu_choosing_theme import choosing_theme_draw
+                choosing_theme_draw(scr)
             elif st == n - 1:
                 scr.clear()
+                save_settings(key)
                 exit(0)
         elif choice == 'S':
             h, w = scr.getmaxyx()

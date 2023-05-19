@@ -77,8 +77,8 @@ def questions_window(file: str, scr):
             options = records["questions"][st]["options"]
             shuffle(options)
         elif choice == 'B':
-            from menu_new_game import new_game_draw
-            new_game_draw(scr)
+            from menu_choosing_theme import choosing_theme_draw
+            choosing_theme_draw(scr)
         elif choice == 'S':
             scr_h, scr_w = scr.getmaxyx()
             scr.clear()

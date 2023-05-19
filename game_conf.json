@@ -1,4 +1,10 @@
 {
-  "theme": "",
-  "hard": ""
+  "main_menu_state": 3,
+  "theme_state": 1,
+  "bash_menu_state": 0,
+  "bash_prc": 0,
+  "files_menu_state": 1,
+  "files_prc": 0,
+  "util_menu_state": 0,
+  "util_prc": 0
 }

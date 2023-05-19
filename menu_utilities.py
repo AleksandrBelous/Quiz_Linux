@@ -1,8 +1,7 @@
-util_menu_state = 0
-
-
 def utilities_draw(scr):
-    global util_menu_state
+    from files import get_settings, save_settings
+    key = 'util_menu_state'
+    st = get_settings(key)
     
     import os
     import curses
@@ -21,7 +20,6 @@ def utilities_draw(scr):
     while True:
         scr.clear()
         scr.border()
-        st = util_menu_state
         y, x = (h - n) // 2, w // 2 - (max_ + len(l_cl) + len(r_cl)) // 2
         for i in range(n):
             if i == st:
@@ -32,15 +30,17 @@ def utilities_draw(scr):
         from menu_move import analyse
         choice = analyse(scr)
         if choice == 'U':
-            util_menu_state = (st - 1) % n
+            st = (st - 1) % n
         elif choice == 'D':
-            util_menu_state = (st + 1) % n
+            st = (st + 1) % n
         elif choice == 'E':
+            save_settings(key, st)
             from menu_questions import questions_window
             questions_window(files_lst[st], scr)
         elif choice == 'B':
-            from menu_new_game import new_game_draw
-            new_game_draw(scr)
+            save_settings(key, st)
+            from menu_choosing_theme import choosing_theme_draw
+            choosing_theme_draw(scr)
         elif choice == 'S':
             h, w = scr.getmaxyx()
             scr.clear()

@@ -1,10 +1,10 @@
 from json import load
 
-bash_menu_state = 0
-
 
 def bash_commands_draw(scr):
-    global bash_menu_state
+    from files import get_settings, save_settings
+    key = 'bash_menu_state'
+    st = get_settings(key)
     
     import os
     import curses
@@ -24,7 +24,6 @@ def bash_commands_draw(scr):
     while True:
         scr.clear()
         scr.border()
-        st = bash_menu_state
         y, x = (scr_h - m) // 2, scr_w // 2 - (max_ + len(l_cl) + len(r_cl)) // 2
         scr.addstr(y - 3, x, f'{l}{menu[st - 3]:<{max_}}{r}', colors.white_on_black | curses.A_DIM)
         scr.addstr(y - 2, x, f'{l}{menu[st - 2]:<{max_}}{r}', colors.white_on_black | curses.A_DIM)
@@ -39,15 +38,17 @@ def bash_commands_draw(scr):
         from menu_move import analyse
         choice = analyse(scr)
         if choice == 'U':
-            bash_menu_state = (st - 1) % n
+            st = (st - 1) % n
         elif choice == 'D':
-            bash_menu_state = (st + 1) % n
+            st = (st + 1) % n
         elif choice == 'E':
+            save_settings(key, st)
             from menu_questions import questions_window
             questions_window(files_lst[st], scr)
         elif choice == 'B':
-            from menu_new_game import new_game_draw
-            new_game_draw(scr)
+            save_settings(key, st)
+            from menu_choosing_theme import choosing_theme_draw
+            choosing_theme_draw(scr)
         elif choice == 'S':
             scr_h, scr_w = scr.getmaxyx()
             scr.clear()
