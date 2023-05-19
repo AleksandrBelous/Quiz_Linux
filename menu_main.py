@@ -1,5 +1,5 @@
 def menu_draw(scr):
-    from files import get_settings, save_settings
+    from files import get_settings, save_settings, clear_settings
     key = 'main_menu_state'
     st = get_settings(key)
     
@@ -45,14 +45,19 @@ def menu_draw(scr):
         elif choice == 'D':
             st = (st + 1) % n
         elif choice == 'E':
-            if st == 0:
+            if st == 0:  # continue game
                 from resume import resume
                 resume()
-            elif st == 1:
+            elif st == 1:  # progress bar
                 ...
-            elif st == 2:
+            elif st == 2:  # blits mod
                 ...
-            elif st == 3:
+            elif st == 3:  # choosing the theme
+                save_settings(key, st)
+                from menu_choosing_theme import choosing_theme_draw
+                choosing_theme_draw(scr)
+            elif st == 4:  # new game
+                clear_settings()
                 save_settings(key, st)
                 from menu_choosing_theme import choosing_theme_draw
                 choosing_theme_draw(scr)

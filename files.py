@@ -32,3 +32,12 @@ def save_settings(key: str, num: int = 0) -> None:
     records[key] = num
     with open("game_conf.json", "w", encoding="UTF-8") as f:
         dump(records, f, ensure_ascii=False, indent=2)
+
+
+def clear_settings():
+    with open('game_conf.json', 'r', encoding='utf-8') as f:
+        records = load(f)
+    for k in records:
+        records[k] = 0
+    with open("game_conf.json", "w", encoding="UTF-8") as f:
+        dump(records, f, ensure_ascii=False, indent=2)
