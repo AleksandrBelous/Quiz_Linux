@@ -2,6 +2,7 @@ def choosing_theme_draw(scr):
     from files import get_settings, save_settings
     key = 'theme_state'
     st = get_settings(key)
+    file = 'game_conf.json'
     
     from colores import colors
     import curses
@@ -36,7 +37,7 @@ def choosing_theme_draw(scr):
         elif choice == 'D':
             st = (st + 1) % n
         elif choice == 'E':
-            save_settings(key, st)
+            save_settings(file, key, st)
             if st == 0:
                 from menu_bash_commands import bash_commands_draw
                 bash_commands_draw(scr)
@@ -47,7 +48,7 @@ def choosing_theme_draw(scr):
                 from menu_utilities import utilities_draw
                 utilities_draw(scr)
         elif choice == 'B':
-            save_settings(key, st)
+            save_settings(file, key, st)
             from menu_main import menu_draw
             menu_draw(scr)
         elif choice == 'S':

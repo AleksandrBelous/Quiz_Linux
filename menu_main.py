@@ -2,6 +2,7 @@ def menu_draw(scr):
     from files import get_settings, save_settings, clear_settings
     key = 'main_menu_state'
     st = get_settings(key)
+    file = 'game_conf.json'
     
     import curses
     from colores import colors
@@ -13,7 +14,7 @@ def menu_draw(scr):
             'БЛИЦ-РЕЖИМ',
             'ВЫБОР ТЕМЫ',
             'НОВАЯ ИГРА',
-            'НАСТРОЙКИ',
+            'УПРАВЛЕНИЕ',
             'АВТОРЫ',
             'ЗАВЕРШИТЬ']
     
@@ -46,24 +47,27 @@ def menu_draw(scr):
             st = (st + 1) % n
         elif choice == 'E':
             if st == 0:  # continue game
+                save_settings(file, key, st)
                 from resume import resume
-                resume()
+                resume(scr)
             elif st == 1:  # progress bar
                 ...
             elif st == 2:  # blits mod
-                ...
+                save_settings(file, key, st)
+                from blitz_mode import blitzmode
+                blitzmode(scr)
             elif st == 3:  # choosing the theme
-                save_settings(key, st)
+                save_settings(file, key, st)
                 from menu_choosing_theme import choosing_theme_draw
                 choosing_theme_draw(scr)
             elif st == 4:  # new game
                 clear_settings()
-                save_settings(key, st)
+                save_settings(file, key, st)
                 from menu_choosing_theme import choosing_theme_draw
                 choosing_theme_draw(scr)
             elif st == n - 1:
                 scr.clear()
-                save_settings(key)
+                save_settings(file, key)
                 exit(0)
         elif choice == 'S':
             h, w = scr.getmaxyx()

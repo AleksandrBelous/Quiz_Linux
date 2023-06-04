@@ -26,18 +26,27 @@ def get_settings(key: str) -> int:
         return records[key]
 
 
-def save_settings(key: str, num: int = 0) -> None:
-    with open('game_conf.json', 'r', encoding='utf-8') as f:
+def save_settings(json_file: str, key: str, num: int = 0) -> None:
+    with open(json_file, 'r', encoding='utf-8') as f:
         records = load(f)
     records[key] = num
-    with open("game_conf.json", "w", encoding="UTF-8") as f:
+    with open(json_file, "w", encoding="UTF-8") as f:
         dump(records, f, ensure_ascii=False, indent=2)
 
 
 def clear_settings():
-    with open('game_conf.json', 'r', encoding='utf-8') as f:
+    with open("game_conf.json", 'r', encoding='utf-8') as f:
         records = load(f)
     for k in records:
         records[k] = 0
     with open("game_conf.json", "w", encoding="UTF-8") as f:
         dump(records, f, ensure_ascii=False, indent=2)
+    
+    for k in ['Commands', 'SysFiles', 'Utilities']:
+        data = get_menu_list(k)
+        for file in data:
+            with open(file, 'r', encoding='utf-8') as f:
+                records = load(f)
+            records["question_state"] = 0
+            with open(file, "w", encoding="UTF-8") as f:
+                dump(records, f, ensure_ascii=False, indent=2)

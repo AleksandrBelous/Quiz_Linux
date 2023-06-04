@@ -2,6 +2,7 @@ def utilities_draw(scr):
     from files import get_settings, save_settings
     key = 'util_menu_state'
     st = get_settings(key)
+    file = 'game_conf.json'
     
     import os
     import curses
@@ -34,11 +35,12 @@ def utilities_draw(scr):
         elif choice == 'D':
             st = (st + 1) % n
         elif choice == 'E':
-            save_settings(key, st)
+            save_settings(file, key, st)
             from menu_questions import questions_window
             questions_window(files_lst[st], scr)
         elif choice == 'B':
-            save_settings(key, st)
+            save_settings(file, key, st)
+            save_settings(file, "resume", 2)
             from menu_choosing_theme import choosing_theme_draw
             choosing_theme_draw(scr)
         elif choice == 'S':
